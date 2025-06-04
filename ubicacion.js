@@ -927,24 +927,26 @@ ${googleMapsLink}
 
 
 
-    // RECOLECTAR Y ENVIAR LOS DATOS A GOOGLE SHEETS
-const datos = {
-    tipoEntrega: "domicilio",
-    numeroFactura: numeroFactura,
-    fecha: fecha,
-    hora: hora,
-    nombre: nombre,
-    telefono: telefono,
-    direccion: ubicacion,
-    puntoReferencia: puntoDeReferencia,
-    productos: localStorage.getItem('cart'),
-    totalProductos: totalProductos,
-    costoDomicilio: costoDomicilio,
-    totalPagar: totalFinal,
-    metodoPago: metodoPago,
-    ubicacionGoogleMaps: googleMapsLink
-};
-console.log(datos); // <-- Aquí verás el objeto y debe incluir tipoEntrega
+// RECOLECTAR Y ENVIAR LOS DATOS A GOOGLE SHEETS
+const datos = recolectarDatosParaGoogleSheet(
+    "domicilio",           // tipoEntrega
+    numeroFactura,         // numeroFactura
+    fecha,                 // fecha
+    hora,                  // hora
+    nombre,                // nombre
+    telefono,              // telefono
+    totalProductos,        // totalProductos
+    metodoPago             // metodoPago
+);
+
+// Sobrescribe/añade los campos que necesitas
+datos.direccion = ubicacion;
+datos.puntoReferencia = puntoDeReferencia;
+datos.costoDomicilio = costoDomicilio;
+datos.totalPagar = totalFinal;
+datos.ubicacionGoogleMaps = googleMapsLink;
+
+console.log(datos); // <-- Aquí verás el objeto formateado
 enviarDatosAGoogleSheet(datos);
 
 }
