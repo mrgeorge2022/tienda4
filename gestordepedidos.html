@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Pedidos</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #eee; }
+    pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Gestor de Pedidos</h1>
+  <table id="tablaPedidos">
+    <thead>
+      <tr>
+        <th>Tipo Entrega</th>
+        <th>Factura</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Mesa</th>
+        <th>Dirección</th>
+        <th>Punto Referencia</th>
+        <th>Productos</th>
+        <th>Total Productos</th>
+        <th>Costo Domicilio</th>
+        <th>Total Pagar</th>
+        <th>Método Pago</th>
+        <th>Ubicación Google Maps</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Los pedidos se cargarán aquí -->
+    </tbody>
+  </table>
+  <script>
+    // Cambia esta URL por la de tu Apps Script desplegado (GET)
+    const API_URL = 'https://script.google.com/macros/s/AKfycbw8cwXF-qdSTjv-6hHTUmDiFvGHoOqTHdVQF9O-58zngNGZxw_dRkN1bZxBZ-sjduLJ/exec';
+
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(pedidos => {
+        const tbody = document.querySelector('#tablaPedidos tbody');
+        pedidos.forEach((pedido, idx) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${pedido.tipoEntrega || ''}</td>
+            <td>${pedido.numeroFactura || ''}</td>
+            <td>${pedido.fecha || ''}</td>
+            <td>${pedido.hora || ''}</td>
+            <td>${pedido.nombre || ''}</td>
+            <td>${pedido.telefono || ''}</td>
+            <td>${pedido.mesa || ''}</td>
+            <td>${pedido.direccion || ''}</td>
+            <td>${pedido.puntoReferencia || ''}</td>
+            <td><pre>${pedido.productos || ''}</pre></td>
+            <td>${pedido.totalProductos || ''}</td>
+            <td>${pedido.costoDomicilio || ''}</td>
+            <td>${pedido.totalPagar || ''}</td>
+            <td>${pedido.metodoPago || ''}</td>
+            <td>${pedido.ubicacionGoogleMaps || ''}</td>
+            <td>
+              <button onclick="eliminarPedido(${idx})">Eliminar</button>
+              <button onclick="imprimirPedido(${idx})">Imprimir</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+
+    function eliminarPedido(idx) {
+      alert('Función para eliminar pedido en la fila: ' + idx);
+      // Aquí puedes implementar la lógica para eliminar usando otro endpoint de Apps Script
+    }
+
+    function imprimirPedido(idx) {
+      alert('Función para imprimir pedido en la fila: ' + idx);
+      // Aquí puedes implementar la lógica para imprimir
+    }
+  </script>
+</body>
+</html>
